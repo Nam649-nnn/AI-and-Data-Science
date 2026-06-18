@@ -1,0 +1,30 @@
+Trong phần code của file model, từ phần if __name__ == "__main__": trở xuống chỉ sử dụng để chạy thử nghiệm trong file đó thôi
+không cần phải sử dụng những phần đó để implement vào những phần khác của project
+Lưu ý quan trọng khi tạo UI khi dùng code này:
+ def recommend_similar_and_popular(self, current_movie_id, baseline_model, top_k=20, final_n=5):
+        """
+        Tìm các phim có nội dung/gu tương đồng nhất nhưng đồng thời phải PHỔ BIẾN nhất thị trường.
+        """
+        # Nếu phim hiện tại nằm ngoài hệ thống ma trận (Phim quá mới) -> trả về luôn top phim hot của hệ thống
+        if current_movie_id not in self.item_sim_df.index:
+            return baseline_model.recommend_top_n(n=final_n)
+            
+        # Bước 1: Lấy điểm tương đồng Cosine của phim hiện tại với các phim khác
+        similar_scores = self.item_sim_df[current_movie_id].drop(current_movie_id)
+        
+        # Lọc ra top K phim giống nhất (Ví dụ lấy hẳn top 20 phim cùng gu)
+        top_similar_movies = similar_scores.sort_values(ascending=False).head(top_k).reset_index()
+        top_similar_movies.columns = ['movieId', 'similarity_score']
+        
+        # Bước 2: Lấy dữ liệu độ phổ biến (lượt đánh giá) từ mô hình Baseline
+        movie_popularity = baseline_model.top_movies[['movieId', 'rating_count']]
+        
+        # Gộp bảng phim tương đồng với bảng thống kê lượt xem thị trường
+        merged_df = pd.merge(top_similar_movies, movie_popularity, on='movieId', how='inner')
+        
+        # Sắp xếp lại danh sách: Ưu tiên phim có LƯỢT XEM KHỦNG nhất lên đầu
+        final_recommendations = merged_df.sort_values(by='rating_count', ascending=False)
+        
+        # Trả về danh sách N phim cuối cùng xuất sắc nhất để đưa lên giao diện
+        return final_recommendations['movieId'].head(final_n).tolist()"
+tạo ra giao diện làm sao để nó trigger được code này thì mới recommond được cho user những phim phổ biến nha
