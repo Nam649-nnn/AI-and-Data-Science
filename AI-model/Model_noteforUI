@@ -28,3 +28,5 @@ Lưu ý quan trọng khi tạo UI khi dùng code này:
         # Trả về danh sách N phim cuối cùng xuất sắc nhất để đưa lên giao diện
         return final_recommendations['movieId'].head(final_n).tolist()"
 tạo ra giao diện làm sao để nó trigger được code này thì mới recommond được cho user những phim phổ biến nha
+* Lưu ý cuối cùng : phải tải 3 file pkl trong mục result của folder data engeering rồi tải về máy sao cho 3 file pkl trong mục result mà ông tạo, 
+rồi file code này cùng nhánh với folder result đó thì code này nó mới fetch được data để proccess dữ liệu nha.
