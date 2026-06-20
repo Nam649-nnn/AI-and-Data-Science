@@ -231,3 +231,4 @@ with gr.Blocks(title="Movie Recommender") as demo:
 
 if __name__ == "__main__":
     demo.launch()
+#demo.launch(share=True) change demo.launch() to this when use on gg colab, use this to install needed libraries!pip install gradio pandas scikit-learn -q
