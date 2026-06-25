@@ -115,7 +115,7 @@ class AdvancedCollaborativeFiltering:
 if __name__ == "__main__":
     print("=== TIẾN TRÌNH LUỒNG XỬ LÝ CỦA THÀNH VIÊN 2 & THÀNH VIÊN 3 ===")
     
-    folder_path = 'result/' # Thay bằng thư mục chứa file .pkl thật 
+    folder_path = 'data_engineering/result/' # Thay bằng thư mục chứa file .pkl thật 
     
     try:
         df_dense = pd.read_pickle(f'{folder_path}ratings_dense.pkl')
